@@ -3,7 +3,11 @@ import { GoogleGenAI } from "@google/genai";
 import { InventoryItem } from "../types";
 
 export const getDiscrepancySummary = async (items: InventoryItem[]): Promise<string> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  // Safe check for process.env in browser environments
+  const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : '';
+  if (!apiKey) return "API Key tidak terkonfigurasi. Analisis AI dinonaktifkan.";
+
+  const ai = new GoogleGenAI({ apiKey });
   
   const discrepancies = items.filter(i => i.expectedQty !== i.actualQty);
   if (discrepancies.length === 0) return "Semua jumlah stok saat ini sesuai dengan nilai ekspektasi.";
@@ -13,7 +17,7 @@ export const getDiscrepancySummary = async (items: InventoryItem[]): Promise<str
     Soroti kerugian utama dan kategori yang bermasalah.
     
     Data:
-    ${discrepancies.map(d => `- Nama: ${d.name}, Size: ${d.size}, Ekspektasi: ${d.expectedQty}, Aktual: ${d.actualQty}, Kondisi: ${d.condition}, Catatan: ${d.notes || 'N/A'}`).join('\n')}
+    ${discrepancies.map(d => `- Nama: ${d.name}, Size: ${d.size}, Ekspektasi: ${d.expectedQty}, Aktual: ${d.actualQty}, Kondisi: ${d.condition}`).join('\n')}
   `;
 
   try {
