@@ -1,0 +1,5 @@
+{
+  "name": "STOCK LAUNDRY @COPYRIGHT SURYADINATA 2026",
+  "description": "A comprehensive laundry inventory management and stock-taking system with role-based access control (Admin, Leader, Staff) and seamless Google Sheets integration.",
+  "requestFramePermissions": []
+}
