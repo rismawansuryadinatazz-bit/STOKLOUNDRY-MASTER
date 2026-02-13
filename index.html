@@ -11,6 +11,10 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
     </style>
+    <script>
+        // Polyfill untuk process.env agar tidak error di GitHub Pages/Browser
+        window.process = window.process || { env: { API_KEY: "" } };
+    </script>
 <script type="importmap">
 {
   "imports": {
@@ -27,5 +31,7 @@
 </head>
 <body class="bg-gray-50 text-gray-900">
     <div id="root"></div>
+    <!-- Load index.tsx sebagai ES module -->
+    <script type="module" src="./index.tsx"></script>
 </body>
 </html>
